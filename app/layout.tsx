@@ -47,6 +47,9 @@ export const metadata: Metadata = {
     "sivanujan.dev",
   ],
   metadataBase: new URL("https://sivanujan.dev"),
+  icons: {
+    icon: "/favicon.png",
+  },
   openGraph: {
     title: "Thanarasan Sivanujan | Code & Soil",
     description: "Full-Stack Developer, Crypto Algo-Trader, and Organic Farmer from Jaffna, Sri Lanka.",

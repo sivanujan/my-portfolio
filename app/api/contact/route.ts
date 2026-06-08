@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import nodemailer from "nodemailer";
+
+export const runtime = "edge";
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,30 +14,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Configure Nodemailer transporter
     const secureConnection = process.env.EMAIL_SECURE === "true";
-    
-    const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: parseInt(process.env.EMAIL_PORT || "587", 10),
-      secure: secureConnection,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-      // Gmail SMTP requires TLS/STARTTLS for port 587
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
+    const emailHost = process.env.EMAIL_HOST || "smtp.gmail.com";
+    const emailPort = parseInt(process.env.EMAIL_PORT || "587", 10);
+    const emailUser = process.env.EMAIL_USER || "thanarasansivanujan@gmail.com";
+    const emailPass = process.env.EMAIL_PASS || "";
+    const recipientEmail = process.env.CONTACT_RECIPIENT_EMAIL || emailUser;
 
-    const recipientEmail = process.env.CONTACT_RECIPIENT_EMAIL || process.env.EMAIL_USER;
-
-    // Define the email contents
     const mailOptions = {
-      from: `"${name} (Transmission Portal)" <${process.env.EMAIL_USER}>`,
+      from: { name: `${name} (Transmission Portal)`, email: emailUser },
       to: recipientEmail,
-      replyTo: email, // Allows clicking reply in Gmail directly to the sender
+      reply: email, // worker-mailer uses 'reply' instead of 'replyTo'
       subject: `[Transmission Portal] ${subject}`,
       text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\n\nMessage:\n${message}`,
       html: `
@@ -73,8 +61,35 @@ export async function POST(req: NextRequest) {
       `,
     };
 
-    // Send email
-    await transporter.sendMail(mailOptions);
+    if (process.env.NODE_ENV === "development") {
+      console.log("==================================================");
+      console.log("[DEV MODE] EMAIL TRANSMISSION SIMULATION");
+      console.log(`From: ${mailOptions.from.name} <${mailOptions.from.email}>`);
+      console.log(`To: ${mailOptions.to}`);
+      console.log(`Subject: ${mailOptions.subject}`);
+      console.log(`Text: ${mailOptions.text}`);
+      console.log("==================================================");
+
+      return NextResponse.json({ success: true, message: "[DEV MODE] Transmission logged to console." });
+    }
+
+    // Dynamic import of worker-mailer to prevent webpack loading it in non-worker environments if possible
+    const { WorkerMailer } = await import(/* webpackIgnore: true */ "worker-mailer");
+
+    const mailer = await WorkerMailer.connect({
+      host: emailHost,
+      port: emailPort,
+      secure: secureConnection,
+      startTls: !secureConnection,
+      credentials: {
+        username: emailUser,
+        password: emailPass,
+      },
+      authType: ["login", "plain"],
+    });
+
+    await mailer.send(mailOptions);
+    await mailer.close();
 
     return NextResponse.json({ success: true, message: "Transmission successfully processed." });
   } catch (error: any) {
