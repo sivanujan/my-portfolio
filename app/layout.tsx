@@ -30,13 +30,18 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Thanarasan Sivanujan | Code & Soil — Portfolio",
   description:
-    "Portfolio of Thanarasan Sivanujan, a full-stack developer, BSE Honours student, crypto algo-trader, Vedic astrology enthusiast, and traditional farmer from Jaffna, Sri Lanka.",
+    "Portfolio of Thanarasan Sivanujan, a full-stack developer, BSE Honours student, crypto algo-trader, Vedic Astrologer, and traditional Organic Farmer from Jaffna, Sri Lanka.",
   keywords: [
     "Thanarasan Sivanujan",
+    "thanarasan sivanujan",
     "Sivanujan",
+    "sivanujan",
+    "sivanujan ousl",
+    "sivanujan developer",
+    "siva",
     "Full Stack Developer Sri Lanka",
     "Crypto Algo Trader Jaffna",
-    "Farmer Developer",
+    "Organic Farmer Developer",
     "BSE student portfolio",
     "Vedic Astrology Developer",
     "sivanujan.dev",
@@ -44,7 +49,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://sivanujan.dev"),
   openGraph: {
     title: "Thanarasan Sivanujan | Code & Soil",
-    description: "Full-Stack Developer, Crypto Algo-Trader, and Farmer from Jaffna, Sri Lanka.",
+    description: "Full-Stack Developer, Crypto Algo-Trader, and Organic Farmer from Jaffna, Sri Lanka.",
     url: "https://sivanujan.dev",
     siteName: "Thanarasan Sivanujan Portfolio",
     images: [
@@ -61,7 +66,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Thanarasan Sivanujan | Code & Soil",
-    description: "Full-Stack Developer, Crypto Algo-Trader, and Farmer from Jaffna, Sri Lanka.",
+    description: "Full-Stack Developer, Crypto Algo-Trader, and Organic Farmer from Jaffna, Sri Lanka.",
     images: ["/og-image.png"],
   },
   robots: {
@@ -87,9 +92,9 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Thanarasan Sivanujan",
-    jobTitle: "Full-Stack Developer, Crypto Algo-Trader & Farmer",
+    jobTitle: "Full-Stack Developer, Crypto Algo-Trader & Organic Farmer",
     url: "https://sivanujan.dev",
-    email: "thanarasansivanujan@gmail.com",
+    email: "contact@sivanujan.online",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Jaffna",
@@ -98,7 +103,7 @@ export default function RootLayout({
     colleague: "BSE Honours Student",
     sameAs: [
       "https://github.com/sivanujan",
-      "https://linkedin.com/in/sivanujan",
+      "https://www.linkedin.com/in/thanarasan-s-94a001122/",
     ],
   };
 

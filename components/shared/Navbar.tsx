@@ -69,7 +69,7 @@ export default function Navbar() {
             </div>
             <div className="flex flex-col">
               <span className="font-display font-bold text-sm tracking-wide leading-none uppercase text-soil dark:text-terminal-green">
-                Thanarasan
+                Sivanujan
               </span>
               <span className="font-mono text-[9px] text-muted-foreground uppercase leading-none mt-1">
                 {isDevMode ? "root@sivanujan: ~" : "code & soil"}

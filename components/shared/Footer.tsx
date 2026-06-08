@@ -88,11 +88,11 @@ export default function Footer() {
             <ul className="space-y-2.5">
               <li>
                 <a
-                  href="mailto:thanarasansivanujan@gmail.com"
+                  href="mailto:contact@sivanujan.online"
                   className="flex items-center gap-2 hover:text-soil dark:hover:text-terminal-green hover:underline decoration-2 underline-offset-2"
                 >
                   <Mail className="w-4 h-4" />
-                  <span>thanarasansivanujan@gmail.com</span>
+                  <span>contact@sivanujan.online</span>
                 </a>
               </li>
               <li>
@@ -108,13 +108,13 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="https://linkedin.com/in/sivanujan"
+                  href="https://www.linkedin.com/in/thanarasan-s-94a001122/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 hover:text-soil dark:hover:text-terminal-green hover:underline decoration-2 underline-offset-2"
                 >
                   <Linkedin className="w-4 h-4" />
-                  <span>linkedin/in/sivanujan</span>
+                  <span>linkedin/in/thanarasan-s...</span>
                 </a>
               </li>
             </ul>
@@ -137,17 +137,6 @@ export default function Footer() {
         <div className="mt-12 pt-6 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px] font-mono text-muted-foreground">
           <div className="flex items-center gap-1.5">
             <span>© {new Date().getFullYear()} Thanarasan Sivanujan. All Rights Reserved.</span>
-            <span>•</span>
-            <div className="flex items-center gap-1">
-              <span>Built with Next.js & Soil</span>
-              <motion.span
-                animate={{ scale: [1, 1.15, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-                className="inline-block text-xs"
-              >
-                {plantEmoji}
-              </motion.span>
-            </div>
           </div>
           <div className="flex gap-4">
             <a href="/sitemap.xml" className="hover:underline">

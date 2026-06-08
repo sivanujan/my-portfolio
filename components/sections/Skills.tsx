@@ -21,7 +21,9 @@ export default function Skills() {
   const isDevMode = mounted && resolvedTheme === "dark";
 
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
-  const [selectedNode, setSelectedNode] = useState<SkillNode>(SKILL_ITEMS[0]);
+  const [selectedNode, setSelectedNode] = useState<SkillNode>(
+    SKILL_ITEMS.find((item) => item.id === "PY") || SKILL_ITEMS[0]
+  );
   const [githubStats, setGithubStats] = useState<any>(null);
 
   // Color mapping based on group for the UI panel

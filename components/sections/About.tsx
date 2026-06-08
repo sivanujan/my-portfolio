@@ -7,24 +7,29 @@ import { Sprout, Compass, Sword, ShieldCheck, Flame, TrendingUp } from "lucide-r
 
 const TIMELINE = [
   {
-    year: "2020",
+    year: "2017",
     title: "The Genesis",
     description: "Wrote first lines of code in Python. Built web scrapers and simple automation scripts to gather market data.",
   },
   {
-    year: "2022",
+    year: "2021",
     title: "Academia & Systems",
     description: "Enrolled in Bachelor of Software Engineering (BSE Honours). Mastered relational databases, computer science theory, and system design.",
   },
   {
-    year: "2023",
+    year: "2022",
     title: "Web Engine & Algo Trading",
     description: "Expanded into Next.js, FastAPI, and Redis. Built Shopify customizations and launched first automated trading algorithms on crypto exchanges.",
   },
   {
-    year: "2024",
+    year: "2023",
     title: "Production Deploys",
     description: "Scaled web systems on AWS. Deployed complex web platforms (KIO-X Berlin) and integrated LLMs with astrological datasets (AstroZen).",
+  },
+  {
+    year: "2025",
+    title: "The Jyotish Awakening",
+    description: "Formally studied Vedic astrology and Tamil Jyotish. Bridging ancient cosmic science with modern data systems — reading Saturn transits as market cycles and life patterns.",
   },
   {
     year: "Present",

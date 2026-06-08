@@ -55,19 +55,6 @@ const MILESTONES: Milestone[] = [
       "Synchronized daily SKU inventories across Shopify APIs.",
     ],
   },
-  {
-    role: "BSE Honours Candidate",
-    client: "University Studies (SLTC)",
-    location: "Jaffna, Sri Lanka",
-    flag: "🇱🇰",
-    duration: "Jan 2022 - Present",
-    tag: "academic",
-    deliverables: [
-      "Mastered Data Structures, Operating Systems, Database Indexing, and C++.",
-      "Conducted web architecture security audits checking cross-site scripting vulnerabilities.",
-      "Collaborated on student compilers coding compilers parsing AST tokens.",
-    ],
-  },
 ];
 
 export default function Experience() {

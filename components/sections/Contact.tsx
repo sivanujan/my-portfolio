@@ -81,11 +81,23 @@ export default function Contact() {
     setStatus("loading");
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      setStatus("success");
-      setFormState({ name: "", email: "", subject: "", message: "" });
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formState),
+      });
+
+      if (response.ok) {
+        setStatus("success");
+        setFormState({ name: "", email: "", subject: "", message: "" });
+      } else {
+        setStatus("error");
+      }
       setTimeout(() => setStatus("idle"), 5000);
-    } catch {
+    } catch (error) {
+      console.error("Transmission error:", error);
       setStatus("error");
       setTimeout(() => setStatus("idle"), 5000);
     }
@@ -143,7 +155,7 @@ export default function Contact() {
             <div className="space-y-4 font-mono text-xs">
               {/* Mail Card */}
               <motion.a
-                href="mailto:thanarasansivanujan@gmail.com"
+                href="mailto:contact@sivanujan.online"
                 whileHover={{ scale: 1.02 }}
                 className="flex items-center gap-4 p-4 border-2 border-foreground bg-card hover:bg-soil/5 dark:hover:bg-terminal-green/5 transition-all duration-200 brutalist-border group/mail"
               >
@@ -156,7 +168,7 @@ export default function Contact() {
                 </motion.div>
                 <div>
                   <span className="text-[10px] text-muted-foreground block uppercase">Email</span>
-                  <span className="font-bold">thanarasansivanujan@gmail.com</span>
+                  <span className="font-bold">contact@sivanujan.online</span>
                 </div>
               </motion.a>
 

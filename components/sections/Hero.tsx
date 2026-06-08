@@ -5,10 +5,12 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { ArrowDown, FileDown, Terminal, Sprout } from "lucide-react";
 
 const WORDS = [
+  "Founder of AstroZen",
+  "Founder of CryptoEdge",
   "Full-Stack Developer",
   "Crypto Algo-Trader",
-  "Farmer",
-  "Leo Ascendant",
+  "Organic Farmer",
+  "Vedic Astrologer",
 ];
 const TYPING_PERIOD = 1500;
 
@@ -63,9 +65,8 @@ export default function Hero() {
   }, []);
 
   // Stats count up
-  const yearsCoding = useCountUp(5, 1000, 1500);
-  const activeClients = useCountUp(6, 1000, 1700);
-  const continentsCount = useCountUp(3, 1000, 1900);
+  const yearsCoding = useCountUp(7, 1000, 1500);
+  const activeClients = useCountUp(15, 1000, 1700);
 
   useEffect(() => {
     const handleTyping = () => {
@@ -172,7 +173,7 @@ export default function Hero() {
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
           >
-            ⚡ Next.js 14 Expert
+            🤖 AI-Augmented Developer
           </motion.div>
 
           {/* Badge 2: Mid Right */}
@@ -181,7 +182,7 @@ export default function Hero() {
             animate={{ y: [0, -14, 0] }}
             transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
           >
-            🪐 Saturn Mahadasha Active
+            🔮 Jyotish Practitioner
           </motion.div>
 
           {/* Badge 3: Lower Right */}
@@ -199,7 +200,7 @@ export default function Hero() {
             animate={{ y: [0, -12, 0] }}
             transition={{ duration: 4.0, repeat: Infinity, ease: "easeInOut", delay: 0.7 }}
           >
-            🌿 Crop Batch #7
+            🌿 Earth & Algorithm Farmer
           </motion.div>
         </div>
       </div>
@@ -232,11 +233,11 @@ export default function Hero() {
           </div>
 
           <p className="font-sans text-xs sm:text-sm text-muted-foreground max-w-xl leading-relaxed">
-            A software engineer building distributed web architecture, specialized in Next.js, FastAPI, and data pipelines. Under shadow transits in Jaffna, translating astrological cycles into algo-trading bots and organic crop harvests.
+            Building the web from Jaffna — full-stack systems in Next.js, React, FastAPI, Django, Flask, Shopify and WordPress. AI is my co-pilot. Python is my language. Between commits — reading cosmic charts, running algo-trading bots and growing cassava under Saturn&apos;s shadow.
           </p>
 
           {/* Hero Stats Row */}
-          <div className="flex items-center gap-6 py-4 border-t border-b border-border/50 max-w-lg font-mono">
+          <div className="flex items-center gap-6 py-4 border-t border-b border-border/50 max-w-xs font-mono">
             <div>
               <div className="text-2xl sm:text-3xl font-display font-black text-soil dark:text-terminal-green">
                 {yearsCoding}+
@@ -246,16 +247,9 @@ export default function Hero() {
             <div className="w-[1px] h-8 bg-border/60" />
             <div>
               <div className="text-2xl sm:text-3xl font-display font-black text-soil dark:text-terminal-green">
-                {activeClients}
+                {activeClients}+
               </div>
               <div className="text-[9px] uppercase tracking-wider text-muted-foreground">Active Clients</div>
-            </div>
-            <div className="w-[1px] h-8 bg-border/60" />
-            <div>
-              <div className="text-2xl sm:text-3xl font-display font-black text-soil dark:text-terminal-green">
-                {continentsCount}
-              </div>
-              <div className="text-[9px] uppercase tracking-wider text-muted-foreground">Continents Served</div>
             </div>
           </div>
 

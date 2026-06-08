@@ -36,7 +36,7 @@ export const SKILL_ITEMS: SkillNode[] = [
   { id: "TY", label: "TypeScript", group: "frontend",
     years: "2+", level: "Advanced", projects: ["KIO-X", "CryptoEdge"], desc: "Strictly typed Javascript superset resolving design-time type errors." },
   { id: "LI", label: "Liquid", group: "frontend",
-    years: "2+", level: "Advanced", projects: ["Atusa", "Eraa"], desc: "Shopify templating language for safe dynamic e-commerce data rendering." },
+    years: "2+", level: "Advanced", projects: ["A***", "***"], desc: "Shopify templating language for safe dynamic e-commerce data rendering." },
 
   // BACKEND (color: #8B4513 soil/ochre)
   { id: "FA", label: "FastAPI", group: "backend",
@@ -46,7 +46,7 @@ export const SKILL_ITEMS: SkillNode[] = [
   { id: "NO", label: "Node.js", group: "backend",
     years: "3+", level: "Advanced", projects: ["KIO-X", "APIs"], desc: "Javascript runtime engine for scalable backend network APIs." },
   { id: "PH", label: "PHP", group: "backend",
-    years: "3+", level: "Advanced", projects: ["WordPress", "Vas Solicitors"], desc: "Server-side web scripting engine for legal portals and CMS backends." },
+    years: "3+", level: "Advanced", projects: ["WordPress", "***"], desc: "Server-side web scripting engine for legal portals and CMS backends." },
   { id: "LA", label: "Laravel", group: "backend",
     years: "1+", level: "Intermediate", projects: ["Client Projects"], desc: "PHP MVC web framework utilizing Eloquent ORM and robust routing subsystems." },
   { id: "WP", label: "WordPress", group: "backend",
@@ -88,7 +88,7 @@ export const SKILL_ITEMS: SkillNode[] = [
   { id: "LC", label: "LangChain", group: "ai",
     years: "1+", level: "Intermediate", projects: ["AstroZen RAG"], desc: "Orchestration tool coordinating document retrieval and vector databases." },
   { id: "SH2", label: "Shopify", group: "ecommerce",
-    years: "2+", level: "Advanced", projects: ["Atusa", "Eraa"], desc: "Multi-store retail platform integrated via custom Liquid and inventory scripts." },
+    years: "2+", level: "Advanced", projects: ["A***", "***"], desc: "Multi-store retail platform integrated via custom Liquid and inventory scripts." },
 ];
 
 export const CONNECTIONS: Connection[] = [
@@ -125,6 +125,45 @@ const GROUP_COLORS: Record<string, string> = {
   blockchain: "#FFD700", // bright gold
   ai: "#6B48FF",         // purple
   ecommerce: "#2D8653",  // green
+};
+
+const ICON_SLUGS: Record<string, string> = {
+  NE: "nextdotjs",
+  RE: "react",
+  TA: "tailwindcss",
+  TY: "typescript",
+  LI: "shopify",
+  FA: "fastapi",
+  PY: "python",
+  NO: "nodedotjs",
+  PH: "php",
+  LA: "laravel",
+  WP: "wordpress",
+  SU: "supabase",
+  MY: "mysql",
+  PO: "postgresql",
+  RE2: "redis",
+  MO: "mongodb",
+  AW: "amazonwebservices",
+  NG: "nginx",
+  DO: "docker",
+  GI: "git",
+  BI: "binance",
+  PS: "tradingview",
+  SO: "solidity",
+  CL: "anthropic",
+  LC: "langchain",
+  SH2: "shopify",
+};
+
+const getSourceId = (d: any): string => {
+  if (!d.source) return "";
+  return typeof d.source === "object" ? d.source.id : d.source;
+};
+
+const getTargetId = (d: any): string => {
+  if (!d.target) return "";
+  return typeof d.target === "object" ? d.target.id : d.target;
 };
 
 interface SkillsGraphProps {
@@ -204,7 +243,7 @@ export default function SkillsGraph({
     return () => mutationObserver.disconnect();
   }, []);
 
-  // D3 force simulation setup
+  // D3 force simulation setup - Run only on dimensions change
   useEffect(() => {
     if (dimensions.width === 0 || dimensions.height === 0 || !svgRef.current) return;
 
@@ -226,12 +265,14 @@ export default function SkillsGraph({
 
     // Setup Simulation
     const simulation = d3.forceSimulation(simNodes)
+      .velocityDecay(0.25) // Less damping for faster, slipperier sways
       .force("link", d3.forceLink(simLinks).id((d: any) => d.id).distance(100))
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force("x", d3.forceX(width / 2).strength(0.08))
       .force("y", d3.forceY(height / 2).strength(0.08))
       .force("charge", d3.forceManyBody().strength(-280))
-      .force("collision", d3.forceCollide().radius(NODE_RADIUS + 12));
+      .force("collision", d3.forceCollide().radius(NODE_RADIUS + 12))
+      .alphaTarget(0.07); // Higher baseline alphaTarget for faster constant floating sways
 
     // Drag handlers
     function dragstarted(event: any, d: any) {
@@ -240,13 +281,15 @@ export default function SkillsGraph({
       d.fy = d.y;
     }
 
+    // Dragged: clamp positions within viewable canvas
     function dragged(event: any, d: any) {
-      d.fx = event.x;
-      d.fy = event.y;
+      d.fx = Math.max(NODE_RADIUS + 10, Math.min(width - NODE_RADIUS - 10, event.x));
+      d.fy = Math.max(NODE_RADIUS + 10, Math.min(height - NODE_RADIUS - 10, event.y));
     }
 
+    // Drag ended: return back to the higher baseline alphaTarget
     function dragended(event: any, d: any) {
-      if (!event.active) simulation.alphaTarget(0);
+      if (!event.active) simulation.alphaTarget(0.07);
       d.fx = null;
       d.fy = null;
     }
@@ -258,27 +301,13 @@ export default function SkillsGraph({
       .enter()
       .append("line")
       .attr("stroke", (d: any) => {
-        const sourceNode = simNodes.find((n) => n.id === d.source.id);
+        const sourceId = getSourceId(d);
+        const sourceNode = simNodes.find((n) => n.id === sourceId);
         const group = sourceNode ? sourceNode.group : "frontend";
         return GROUP_COLORS[group] || "#ffffff";
       })
       .attr("stroke-width", 2)
-      .attr("opacity", (d: any) => {
-        if (hoveredNode) {
-          const isConnected = d.source.id === hoveredNode || d.target.id === hoveredNode;
-          return isConnected ? 0.9 : 0.08;
-        }
-        return 0.6;
-      })
-      .style("filter", (d: any) => {
-        if (isDevMode) {
-          const sourceNode = simNodes.find((n) => n.id === d.source.id);
-          const group = sourceNode ? sourceNode.group : "frontend";
-          const color = GROUP_COLORS[group] || "#00FF41";
-          return `drop-shadow(0 0 4px ${color})`;
-        }
-        return "none";
-      });
+      .attr("opacity", 0.6);
 
     // 2. Draw Nodes group on top of links
     const nodeGroup = svgElement.append("g").attr("class", "nodes-group");
@@ -306,14 +335,99 @@ export default function SkillsGraph({
 
     // 3. Append Circle inside each Node Group
     node.append("circle")
-      .attr("class", (d: any) => {
-        const baseClass = "node-circle transition-all duration-300";
-        if (selectedNode && selectedNode.id === d.id) {
-          return `${baseClass} node-selected-pulse`;
-        }
-        return baseClass;
-      })
+      .attr("class", "node-circle transition-all duration-300")
       .attr("r", NODE_RADIUS)
+      .attr("fill", (d: any) => GROUP_COLORS[d.group] || "#ffffff")
+      .attr("stroke", "var(--foreground)")
+      .attr("stroke-width", 1.5);
+
+    // 4. Append Tech Brand Icon (Image) inside each Node Group
+    node.append("image")
+      .attr("href", (d: any) => {
+        const slug = ICON_SLUGS[d.id];
+        if (!slug) return "";
+        return `https://cdn.simpleicons.org/${slug}/ffffff`;
+      })
+      .attr("x", -13)
+      .attr("y", -13)
+      .attr("width", 26)
+      .attr("height", 26)
+      .attr("class", "node-icon")
+      .attr("opacity", 0.9)
+      .on("error", function(this: any, event: any, d: any) {
+        // Fallback to text abbreviation if the image fails to load
+        const g = d3.select(this.parentNode);
+        g.append("text")
+          .text(d.id)
+          .attr("text-anchor", "middle")
+          .attr("dominant-baseline", "central")
+          .attr("font-size", "11px")
+          .attr("font-weight", "bold")
+          .attr("font-family", "JetBrains Mono, monospace")
+          .attr("fill", "#ffffff");
+        d3.select(this).remove();
+      });
+
+    // Update simulation positions on tick
+    simulation.on("tick", () => {
+      // Update link positions
+      link
+        .attr("x1", (d: any) => d.source.x)
+        .attr("y1", (d: any) => d.source.y)
+        .attr("x2", (d: any) => d.target.x)
+        .attr("y2", (d: any) => d.target.y);
+
+      // Update node positions with boundary clamping and gentle random wobble
+      node.attr("transform", (d: any) => {
+        // Inject continuous tiny random forces so nodes sway dynamically even after reaching equilibrium
+        if (!d.fx) {
+          d.vx += (Math.random() - 0.5) * 0.12;
+        }
+        if (!d.fy) {
+          d.vy += (Math.random() - 0.5) * 0.12;
+        }
+
+        d.x = Math.max(NODE_RADIUS + 10, Math.min(width - NODE_RADIUS - 10, d.x));
+        d.y = Math.max(NODE_RADIUS + 10, Math.min(height - NODE_RADIUS - 10, d.y));
+        return `translate(${d.x},${d.y})`;
+      });
+    });
+
+    return () => {
+      simulation.stop();
+    };
+  }, [dimensions.width, dimensions.height, setSelectedNode, setHoveredNode]);
+
+  // Styling updates on selection, hover, or mode changes without rebuilding the topology
+  useEffect(() => {
+    if (dimensions.width === 0 || dimensions.height === 0 || !svgRef.current) return;
+
+    const svgElement = d3.select(svgRef.current);
+
+    // Update links (edges) styling
+    svgElement.selectAll(".links-group line")
+      .attr("opacity", (d: any) => {
+        if (hoveredNode) {
+          const sourceId = getSourceId(d);
+          const targetId = getTargetId(d);
+          const isConnected = sourceId === hoveredNode || targetId === hoveredNode;
+          return isConnected ? 0.9 : 0.08;
+        }
+        return 0.6;
+      })
+      .style("filter", (d: any) => {
+        if (isDevMode) {
+          const sourceId = getSourceId(d);
+          const sourceNode = SKILL_ITEMS.find((n) => n.id === sourceId);
+          const group = sourceNode ? sourceNode.group : "frontend";
+          const color = GROUP_COLORS[group] || "#00FF41";
+          return `drop-shadow(0 0 4px ${color})`;
+        }
+        return "none";
+      });
+
+    // Update node circles styling
+    svgElement.selectAll(".node-container circle")
       .attr("fill", (d: any) => {
         if (isDevMode) return "#0A1A0A";
         return GROUP_COLORS[d.group] || "#ffffff";
@@ -334,43 +448,29 @@ export default function SkillsGraph({
           return "drop-shadow(0 0 8px #FFD700)";
         }
         return "none";
+      })
+      .attr("class", (d: any) => {
+        const baseClass = "node-circle transition-all duration-300";
+        if (selectedNode && selectedNode.id === d.id) {
+          return `${baseClass} node-selected-pulse`;
+        }
+        return baseClass;
       });
 
-    // 4. Append Text inside each Node Group
-    node.append("text")
-      .text((d: any) => d.id) // 2-letter abbreviation
-      .attr("text-anchor", "middle")
-      .attr("dominant-baseline", "central")
-      .attr("dy", "0")
-      .attr("font-size", "11px")
-      .attr("font-weight", "bold")
-      .attr("font-family", "JetBrains Mono, monospace")
-      .attr("fill", (d: any) => {
-        if (isDevMode) return "#00FF41";
-        return "#ffffff"; // White text inside colored nodes for human mode
+    // Update node icons image URLs (handles switching between brand colors & terminal green)
+    svgElement.selectAll(".node-container image")
+      .attr("href", (d: any) => {
+        const slug = ICON_SLUGS[d.id];
+        if (!slug) return "";
+        const color = isDevMode ? "00ff41" : "ffffff";
+        return `https://cdn.simpleicons.org/${slug}/${color}`;
       });
 
-    // Update simulation positions on tick
-    simulation.on("tick", () => {
-      // Update link positions
-      link
-        .attr("x1", (d: any) => d.source.x)
-        .attr("y1", (d: any) => d.source.y)
-        .attr("x2", (d: any) => d.target.x)
-        .attr("y2", (d: any) => d.target.y);
+    // Update fallback texts
+    svgElement.selectAll(".node-container text")
+      .attr("fill", isDevMode ? "#00FF41" : "#ffffff");
 
-      // Update node positions with boundary clamping
-      node.attr("transform", (d: any) => {
-        d.x = Math.max(NODE_RADIUS + 10, Math.min(width - NODE_RADIUS - 10, d.x));
-        d.y = Math.max(NODE_RADIUS + 10, Math.min(height - NODE_RADIUS - 10, d.y));
-        return `translate(${d.x},${d.y})`;
-      });
-    });
-
-    return () => {
-      simulation.stop();
-    };
-  }, [dimensions.width, dimensions.height, selectedNode, hoveredNode, isDevMode, setSelectedNode, setHoveredNode]);
+  }, [selectedNode, hoveredNode, isDevMode, dimensions.width, dimensions.height]);
 
   return (
     <div
