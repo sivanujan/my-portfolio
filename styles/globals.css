@@ -1,0 +1,189 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Base Color Palette Tokens */
+    --color-soil: #8B4513;
+    --color-teal: #0D6E6E;
+    --color-sand: #F5E6C8;
+    --color-dark: #0F1A1A;
+    --color-gold: #C9972C;
+    --color-rust: #C0432A;
+
+    /* Light Theme (Human Mode): Earthy, Warm, Organic */
+    --background: var(--color-sand);
+    --foreground: #1A0F05; /* Deep organic brown/black */
+    --card: #EDE0C4;
+    --card-foreground: #1A0F05;
+    --popover: var(--color-sand);
+    --popover-foreground: #1A0F05;
+    --primary: var(--color-soil);
+    --primary-foreground: var(--color-sand);
+    --secondary: var(--color-teal);
+    --secondary-foreground: var(--color-sand);
+    --muted: #8E8370;
+    --muted-foreground: #5C5447;
+    --accent: var(--color-gold);
+    --accent-foreground: var(--color-dark);
+    --destructive: var(--color-rust);
+    --destructive-foreground: var(--color-sand);
+    --border: rgba(139, 69, 19, 0.25);
+    --input: rgba(139, 69, 19, 0.15);
+    --ring: var(--color-soil);
+    --radius: 0.5rem;
+
+    --terminal-green: #008037;
+    --terminal-dim: #1F3628;
+  }
+
+  .dark {
+    /* Dark Theme (Dev Mode): Brutalist Terminal, Green on Black */
+    --background: #0A0F0A; /* Pitch black with deep green-teal tint */
+    --foreground: #00FF41; /* Matrix green for readability */
+    --card: #0F1A1A; /* Dark box */
+    --card-foreground: #00FF41;
+    --popover: #0F1A1A;
+    --popover-foreground: #00FF41;
+    --primary: #00FF41; /* Vibrant terminal green */
+    --primary-foreground: #0A0F0A;
+    --secondary: var(--color-teal);
+    --secondary-foreground: #00FF41;
+    --muted: #1F3628;
+    --muted-foreground: #8FA2A2;
+    --accent: var(--color-gold);
+    --accent-foreground: #0A0F0A;
+    --destructive: var(--color-rust);
+    --destructive-foreground: #00FF41;
+    --border: rgba(0, 255, 65, 0.25);
+    --input: rgba(0, 255, 65, 0.15);
+    --ring: #00FF41;
+
+    --terminal-green: #00FF41;
+    --terminal-dim: #051A0A;
+  }
+
+  .dark,
+  .dark * {
+    font-family: var(--font-mono), JetBrains Mono, monospace !important;
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-feature-settings: "rlig" 1, "calt" 1;
+    transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+    overflow-x: hidden;
+  }
+
+  /* Custom Selection */
+  ::selection {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Base styling utility overrides for brutalist styles */
+.brutalist-border {
+  border: 2px solid var(--foreground);
+  box-shadow: 4px 4px 0px 0px var(--foreground);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.brutalist-border:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px 0px var(--foreground);
+}
+
+/* Custom Animations */
+@keyframes rotate-kolam {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-rotate-kolam {
+  animation: rotate-kolam 120s linear infinite;
+  transform-origin: center;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Hide default cursor globally when Custom Cursor is loaded */
+.custom-cursor-active,
+.custom-cursor-active a,
+.custom-cursor-active button,
+.custom-cursor-active [role="button"] {
+  cursor: none !important;
+}
+
+/* Terminal scanline and flicker effects for Dev Mode only */
+.dark .scanline::before {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 99999;
+  background-size: 100% 4px, 6px 100%;
+  pointer-events: none;
+}
+
+.dark .terminal-flicker {
+  animation: flicker 0.15s infinite;
+}
+
+@keyframes flicker {
+  0% { opacity: 0.985; }
+  50% { opacity: 0.995; }
+  100% { opacity: 0.99; }
+}
+
+/* Custom dotted background */
+.dot-grid {
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
