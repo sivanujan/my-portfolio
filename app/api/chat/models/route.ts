@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+export const runtime = "edge";
+
 const AGENTROUTER_API_KEY = "sk-XLaOabU1V4FYpeI2nqwntq1hZKyS1zMWMNEVII3WcucUQUS7";
 const AGENTROUTER_BASE_URL = "https://agentrouter.org/v1";
 
