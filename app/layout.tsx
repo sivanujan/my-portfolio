@@ -28,39 +28,49 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Thanarasan Sivanujan | Code & Soil — Portfolio",
+  title: {
+    default: "Sivanujan (T. Sivanujan) | Full-Stack Developer & Software Engineer",
+    template: "%s | Sivanujan",
+  },
   description:
-    "Portfolio of Thanarasan Sivanujan, a full-stack developer, BSE Honours student, crypto algo-trader, Vedic Astrologer, and traditional Organic Farmer from Jaffna, Sri Lanka.",
+    "Official portfolio of Sivanujan (T. Sivanujan / Thanarasan Sivanujan) — Full-Stack Software Engineer, BSE Honours student, Crypto Algo-Trader, and Organic Farmer from Jaffna, Sri Lanka.",
   keywords: [
-    "Thanarasan Sivanujan",
-    "thanarasan sivanujan",
     "Sivanujan",
     "sivanujan",
-    "sivanujan ousl",
+    "T. Sivanujan",
+    "T.Sivanujan",
+    "Thanarasan Sivanujan",
+    "Sivanujan Thanarasan",
+    "sivanujan portfolio",
     "sivanujan developer",
-    "siva",
+    "sivanujan jaffna",
+    "sivanujan ousl",
+    "sivanujan.online",
     "Full Stack Developer Sri Lanka",
     "Crypto Algo Trader Jaffna",
     "Organic Farmer Developer",
     "BSE student portfolio",
     "Vedic Astrology Developer",
-    "sivanujan.dev",
   ],
-  metadataBase: new URL("https://sivanujan.dev"),
+  metadataBase: new URL("https://sivanujan.online"),
+  alternates: {
+    canonical: "https://sivanujan.online",
+  },
   icons: {
     icon: "/favicon.png",
   },
   openGraph: {
-    title: "Thanarasan Sivanujan | Code & Soil",
-    description: "Full-Stack Developer, Crypto Algo-Trader, and Organic Farmer from Jaffna, Sri Lanka.",
-    url: "https://sivanujan.dev",
-    siteName: "Thanarasan Sivanujan Portfolio",
+    title: "Sivanujan (T. Sivanujan) | Code & Soil — Official Portfolio",
+    description:
+      "Official website of Sivanujan — Full-Stack Developer, Crypto Algo-Trader, and Organic Farmer from Jaffna, Sri Lanka.",
+    url: "https://sivanujan.online",
+    siteName: "Sivanujan Portfolio",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Thanarasan Sivanujan — Code & Soil Portfolio",
+        alt: "Sivanujan (T. Sivanujan) — Code & Soil Portfolio",
       },
     ],
     locale: "en_US",
@@ -68,8 +78,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Thanarasan Sivanujan | Code & Soil",
-    description: "Full-Stack Developer, Crypto Algo-Trader, and Organic Farmer from Jaffna, Sri Lanka.",
+    title: "Sivanujan (T. Sivanujan) | Software Engineer & Developer",
+    description:
+      "Official website of Sivanujan — Full-Stack Developer, Crypto Algo-Trader, and Organic Farmer from Jaffna, Sri Lanka.",
     images: ["/og-image.png"],
   },
   robots: {
@@ -90,24 +101,51 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // JSON-LD Structured Schema
-  const jsonLd = {
+  // JSON-LD Structured Schemas for Google Search
+  const jsonLdPerson = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Thanarasan Sivanujan",
-    jobTitle: "Full-Stack Developer, Crypto Algo-Trader & Organic Farmer",
-    url: "https://sivanujan.dev",
+    "@id": "https://sivanujan.online/#person",
+    name: "Sivanujan",
+    alternateName: [
+      "T. Sivanujan",
+      "T.Sivanujan",
+      "Thanarasan Sivanujan",
+      "Sivanujan Thanarasan",
+      "sivanujan",
+    ],
+    givenName: "Thanarasan",
+    familyName: "Sivanujan",
+    jobTitle: "Full-Stack Software Engineer & Algo-Trader",
+    url: "https://sivanujan.online",
+    image: "https://sivanujan.online/og-image.png",
     email: "contact@sivanujan.online",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Jaffna",
       addressCountry: "Sri Lanka",
     },
-    colleague: "BSE Honours Student",
+    alumniOf: {
+      "@type": "EducationalOrganization",
+      name: "Open University of Sri Lanka",
+    },
     sameAs: [
       "https://github.com/sivanujan",
       "https://www.linkedin.com/in/thanarasan-s-94a001122/",
+      "https://sivanujan.online",
     ],
+  };
+
+  const jsonLdWebSite = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://sivanujan.online/#website",
+    url: "https://sivanujan.online",
+    name: "Sivanujan | Official Portfolio",
+    alternateName: ["Sivanujan Developer", "T. Sivanujan Portfolio"],
+    publisher: {
+      "@id": "https://sivanujan.online/#person",
+    },
   };
 
   return (
@@ -147,7 +185,11 @@ export default function RootLayout({
         {/* Structured Schema.org scripting */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdPerson) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
         />
       </body>
     </html>

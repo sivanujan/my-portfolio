@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { Mail, MapPin, ExternalLink, Calendar, ArrowUp } from "lucide-react";
 import { Github, Linkedin } from "@/components/shared/Icons";
 import { motion, AnimatePresence } from "framer-motion";
-import AstrologyWidget from "./AstrologyWidget";
 
 export default function Footer() {
   const [localTime, setLocalTime] = useState("");
@@ -62,11 +61,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Left Column: Branding and Duality */}
-          <div className="lg:col-span-4 space-y-4">
+          <div className="lg:col-span-7 space-y-4">
             <h3 className="font-display font-black text-2xl tracking-wider text-soil dark:text-terminal-green uppercase">
-              Thanarasan S.
+              T.Sivanujan
             </h3>
-            <p className="font-sans text-xs text-muted-foreground leading-relaxed max-w-sm">
+            <p className="font-sans text-xs text-muted-foreground leading-relaxed max-w-md">
               Cultivating the land in Jaffna, Sri Lanka, and writing code that scales globally.
               Merging Vedic patterns, algorithm modeling, and organic agriculture.
             </p>
@@ -80,8 +79,8 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Middle Column: Social & Directories */}
-          <div className="lg:col-span-3 space-y-4 font-mono text-xs">
+          {/* Right Column: Social & Directories */}
+          <div className="lg:col-span-5 space-y-4 font-mono text-xs">
             <h4 className="font-display font-bold text-sm tracking-wider uppercase text-soil dark:text-terminal-green">
               Directories
             </h4>
@@ -121,14 +120,9 @@ export default function Footer() {
 
             <div className="pt-2">
               <p className="text-[10px] text-muted-foreground leading-normal max-w-xs">
-                🌱 farming logs & transit coordinates are updated monthly. Astro values represent Lahiri Ayanamsha placements.
+                🌱 farming logs & project updates are published monthly.
               </p>
             </div>
-          </div>
-
-          {/* Right Column: Astrology widget container */}
-          <div className="lg:col-span-5 flex justify-end">
-            <AstrologyWidget />
           </div>
 
         </div>
@@ -136,7 +130,7 @@ export default function Footer() {
         {/* Bottom border & disclaimer */}
         <div className="mt-12 pt-6 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px] font-mono text-muted-foreground">
           <div className="flex items-center gap-1.5">
-            <span>© {new Date().getFullYear()} Thanarasan Sivanujan. All Rights Reserved.</span>
+            <span>© {new Date().getFullYear()} T.Sivanujan. All Rights Reserved.</span>
           </div>
           <div className="flex gap-4">
             <a href="/sitemap.xml" className="hover:underline">

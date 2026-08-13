@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sivanujan.dev/sitemap.xml
+Sitemap: https://sivanujan.online/sitemap.xml
