@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "pages:build": "npx @cloudflare/next-on-pages",
     "start": "next start",
     "lint": "next lint"
   },
@@ -21,6 +22,7 @@
     "worker-mailer": "^1.2.1"
   },
   "devDependencies": {
+    "@cloudflare/next-on-pages": "^1.13.16",
     "@types/canvas-confetti": "^1.9.0",
     "@types/d3": "^7.4.3",
     "@types/node": "^20",
